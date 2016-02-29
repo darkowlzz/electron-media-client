@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>EMC</title>
+</head>
+<body>
+  <h1>Electron Media Client</h1>
+
+  <div>
+    Host: <input id="host" type="text" value="localhost"/>
+    Port: <input id="port" type="number" value="7000"/>
+  </div>
+
+  <br>
+
+  <div>
+    <button id="volUp">Volume +</button>
+    <span>&nbsp;&nbsp;&nbsp;</span>
+    <button id="volDown">Volume -</button>
+  </div>
+
+  <script>
+    const request = require('request');
+    const volUp = document.getElementById('volUp');
+    const volDown = document.getElementById('volDown');
+
+    const UP_ENDPOINT = '/vol/up';
+    const DOWN_ENDPOINT = '/vol/down';
+
+    function getEndpoint() {
+      var HOST = document.getElementById('host').value;
+      var PORT = parseInt(document.getElementById('port').value);
+      return 'http://' + HOST + ':' + PORT;
+    }
+
+    function getVolUpEndpoint() {
+      return getEndpoint() + UP_ENDPOINT;
+    }
+
+    function getVolDownEndpoint() {
+      return getEndpoint() + DOWN_ENDPOINT;
+    }
+
+    volUp.addEventListener('click', function () {
+      request(getVolUpEndpoint(), function() {
+        console.log('request vol up', getEndpoint());
+      });
+    });
+
+    volDown.addEventListener('click', function () {
+      request(getVolDownEndpoint(), function()  {
+        console.log('request vol down', getEndpoint());
+      });
+    });
+  </script>
+</body>
+</html>
