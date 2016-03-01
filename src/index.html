@@ -52,14 +52,14 @@
       return getEndpoint() + DOWN_ENDPOINT;
     }
 
-    volUp.addEventListener('click', function () {
-      request(getVolUpEndpoint(), function() {
+    volUp.addEventListener('click', () => {
+      request(getVolUpEndpoint(), () => {
         saveData();
       });
     });
 
-    volDown.addEventListener('click', function () {
-      request(getVolDownEndpoint(), function()  {
+    volDown.addEventListener('click', () => {
+      request(getVolDownEndpoint(), () => {
         saveData();
       });
     });
