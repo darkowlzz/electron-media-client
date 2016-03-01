@@ -22,15 +22,25 @@
 
   <script>
     const request = require('request');
+    const storage = require('electron-json-storage');
     const volUp = document.getElementById('volUp');
     const volDown = document.getElementById('volDown');
+    const host = document.getElementById('host');
+    const port = document.getElementById('port');
 
+    const STORAGE_KEY = 'media';
     const UP_ENDPOINT = '/vol/up';
     const DOWN_ENDPOINT = '/vol/down';
 
+    // fetch the app variables and set in the app
+    storage.get(STORAGE_KEY, function(error, data) {
+      host.value = !! data.host ? data.host : 'localhost';
+      port.value = !! data.port ? data.port : 7000;
+    });
+
     function getEndpoint() {
-      var HOST = document.getElementById('host').value;
-      var PORT = parseInt(document.getElementById('port').value);
+      var HOST = host.value;
+      var PORT = parseInt(port.value);
       return 'http://' + HOST + ':' + PORT;
     }
 
@@ -44,15 +54,25 @@
 
     volUp.addEventListener('click', function () {
       request(getVolUpEndpoint(), function() {
-        console.log('request vol up', getEndpoint());
+        saveData();
       });
     });
 
     volDown.addEventListener('click', function () {
       request(getVolDownEndpoint(), function()  {
-        console.log('request vol down', getEndpoint());
+        saveData();
       });
     });
+
+    // Save app data
+    function saveData() {
+      storage.set(STORAGE_KEY,
+        {
+          'host': host.value,
+          'port': port.value
+        }
+      );
+    }
   </script>
 </body>
 </html>
