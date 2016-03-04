@@ -7,7 +7,14 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 400, height: 400});
+  mainWindow = new BrowserWindow({
+    'title-bar-style': 'hidden',
+    width: 250,
+    height: 300,
+    'min-width': 250,
+    'min-height': 300,
+    'accept-first-mouse': true
+  });
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   mainWindow.on('closed', () => {
     mainWindow = null;
