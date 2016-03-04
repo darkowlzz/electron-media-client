@@ -3,28 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>EMC</title>
+  <link rel="stylesheet" href="../photon/css/photon.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Electron Media Client</h1>
+  <div class="window">
+    <header class="toolbar toolbar-header">
+      <h1 class="title">Electron Media Client</h1>
 
-  <div>
-    Host: <input id="host" type="text" value="localhost"/>
-    Port: <input id="port" type="number" value="7000"/>
-  </div>
+      <div class="toolbar-actions">
+        <div class="btn-group">
+          <button class="btn btn-default" id="play">
+            <span class="icon icon-play"></span>
+          </button>
+          <button class="btn btn-default" id="pause">
+            <span class="icon icon-pause"></span>
+          </button>
+          <button class="btn btn-default" id="vol-up">
+            <span class="icon icon-plus-squared"></span>
+          </button>
+          <button class="btn btn-default" id="vol-down">
+            <span class="icon icon-minus-squared"></span>
+          </button>
+        </div>
+      </div>
+    </header>
 
-  <br>
+    <div class="window-content">
 
-  <div>
-    <button id="volUp">Volume +</button>
-    <span>&nbsp;&nbsp;&nbsp;</span>
-    <button id="volDown">Volume -</button>
+      <div class="pane-group">
+        <div class="pane">
+          <form class="good-margin">
+            <div class="form-group">
+              <label>Host</label>
+              <input type="text" id="host" class="form-control" placeholder="127.0.0.1">
+            </div>
+            <div class="form-group">
+              <label>Port</label>
+              <input type="number" id="port" class="form-control" placeholder="7000">
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="toolbar toolbar-footer">
+      <h1 class="title">Volume:</h1>
+    </footer>
   </div>
 
   <script>
     const request = require('request');
     const storage = require('electron-json-storage');
-    const volUp = document.getElementById('volUp');
-    const volDown = document.getElementById('volDown');
+    const volUp = document.getElementById('vol-up');
+    const volDown = document.getElementById('vol-down');
     const host = document.getElementById('host');
     const port = document.getElementById('port');
 
