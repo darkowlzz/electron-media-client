@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>EMC</title>
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="../photon/css/photon.min.css">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Javascript -->
+  <script src="js/renderer-app.js" charset="utf-8"></script>
 </head>
 <body>
   <div class="window">
@@ -19,12 +23,6 @@
           <button class="btn btn-default" id="pause">
             <span class="icon icon-pause"></span>
           </button>
-          <button class="btn btn-default" id="vol-up">
-            <span class="icon icon-plus-squared"></span>
-          </button>
-          <button class="btn btn-default" id="vol-down">
-            <span class="icon icon-minus-squared"></span>
-          </button>
         </div>
       </div>
     </header>
@@ -34,6 +32,11 @@
       <div class="pane-group">
         <div class="pane">
           <form class="good-margin">
+            <div class="form-group">
+              <p>Volume</p>
+              <input type="range" min="0" max="100" id="slider"/>
+            </div>
+            <hr>
             <div class="form-group">
               <label>Host</label>
               <input type="text" id="host" class="form-control" placeholder="127.0.0.1">
@@ -49,63 +52,8 @@
     </div>
 
     <footer class="toolbar toolbar-footer">
-      <h1 class="title">Volume:</h1>
+      <h1 class="title">Volume: <span id="status"></span></h1>
     </footer>
   </div>
-
-  <script>
-    const request = require('request');
-    const storage = require('electron-json-storage');
-    const volUp = document.getElementById('vol-up');
-    const volDown = document.getElementById('vol-down');
-    const host = document.getElementById('host');
-    const port = document.getElementById('port');
-
-    const STORAGE_KEY = 'media';
-    const UP_ENDPOINT = '/vol/up';
-    const DOWN_ENDPOINT = '/vol/down';
-
-    // fetch the app variables and set in the app
-    storage.get(STORAGE_KEY, function(error, data) {
-      host.value = !! data.host ? data.host : 'localhost';
-      port.value = !! data.port ? data.port : 7000;
-    });
-
-    function getEndpoint() {
-      var HOST = host.value;
-      var PORT = parseInt(port.value);
-      return 'http://' + HOST + ':' + PORT;
-    }
-
-    function getVolUpEndpoint() {
-      return getEndpoint() + UP_ENDPOINT;
-    }
-
-    function getVolDownEndpoint() {
-      return getEndpoint() + DOWN_ENDPOINT;
-    }
-
-    volUp.addEventListener('click', () => {
-      request(getVolUpEndpoint(), () => {
-        saveData();
-      });
-    });
-
-    volDown.addEventListener('click', () => {
-      request(getVolDownEndpoint(), () => {
-        saveData();
-      });
-    });
-
-    // Save app data
-    function saveData() {
-      storage.set(STORAGE_KEY,
-        {
-          'host': host.value,
-          'port': port.value
-        }
-      );
-    }
-  </script>
 </body>
 </html>

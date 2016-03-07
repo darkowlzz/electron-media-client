@@ -10,7 +10,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     'title-bar-style': 'hidden',
     width: 250,
-    height: 300,
+    height: 350,
     'min-width': 250,
     'min-height': 300,
     'accept-first-mouse': true
