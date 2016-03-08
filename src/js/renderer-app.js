@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const request = require('request');
   const storage = require('electron-json-storage');
+  const ipcRenderer = require('electron').ipcRenderer;
   //const volUp = document.getElementById('vol-up');
   //const volDown = document.getElementById('vol-down');
   const host = document.getElementById('host');
@@ -39,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getCurrentVolume() {
     request(getEndpoint() + '/vol', (err, res, body) => {
-      console.log('Vol:', body);
       slider.value = parseInt(body);
       status.textContent = body;
     });
@@ -61,4 +61,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     );
   }
+
+  ipcRenderer.on('vol-up', (event, arg) => {
+    request(getVolUpEndpoint(), () => {
+
+    });
+  });
+
+  ipcRenderer.on('vol-down', (event, arg) => {
+    request(getVolDownEndpoint(), () => {
+
+    });
+  });
 });
