@@ -10,10 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var slider = document.getElementById('slider');
   var status = document.getElementById('status');
+  var mute = document.getElementById('mute');
 
   const STORAGE_KEY = 'media';
   const UP_ENDPOINT = '/vol/up';
   const DOWN_ENDPOINT = '/vol/down';
+
+  var MUTE = false;
 
   // fetch the app variables and set in the app
   storage.get(STORAGE_KEY, function(error, data) {
@@ -50,6 +53,15 @@ document.addEventListener('DOMContentLoaded', function() {
       status.textContent = slider.value;
       saveData();
     });
+  });
+
+  mute.addEventListener('click', () => {
+    MUTE = ! MUTE;
+    if (MUTE == true) {
+      request(getEndpoint() + '/vol/mute', () => {});
+    } else {
+      request(getEndpoint() + '/vol/unmute', () => {});
+    }
   });
 
   // Save app data
